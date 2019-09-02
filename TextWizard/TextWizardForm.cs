@@ -17,30 +17,26 @@ namespace TextWizard
 
         private void inputTextChanged(object sender, EventArgs e)
         {
-            output.Text = ConvertString();
+            ConvertString();
         }
 
-        private string ConvertString()
+        private void ConvertString()
         {
             try
             {
-                string converted = Conversion.ConvertString(input.Text, conversion.Text, encodingName);
-                if (!string.IsNullOrEmpty(converted))
-                {
-                    Clipboard.Clear();
-                    Clipboard.SetText(converted);
-                };
-                return converted;
+                output.Text = Conversion.ConvertString(input.Text, conversion.Text, encodingName);
+                if (!string.IsNullOrEmpty(output.Text))
+                    Clipboard.SetText(output.Text);
             }
             catch (Exception ex)
             {
-                return "ERROR: " + ex.Message;
+                output.Text = "ERROR: " + ex.Message;
             };
         }
 
         private void conversionTextChanged(object sender, EventArgs e)
         {
-            output.Text = ConvertString();
+            ConvertString();
         }
 
         private void TextWizardFormOnLoad(object sender, EventArgs e)
@@ -56,21 +52,21 @@ namespace TextWizard
             if (Clipboard.ContainsText())
             {
                 input.Text = Clipboard.GetText();
-                output.Text = ConvertString();
+                ConvertString();
             };
         }
 
         private void InvertMouseDown(object sender, MouseEventArgs e)
         {
             input.Text = output.Text;
-            output.Text = ConvertString();
+            ConvertString();
         }
 
         private void EncodingSelected(object sender, ToolStripItemClickedEventArgs e)
         {
             encodingName = e.ClickedItem.Text;
             EncodingSelection.Text = encodingName;
-            output.Text = ConvertString();
+            ConvertString();
         }
 
         private void SaveMouseDown(object sender, MouseEventArgs e)
