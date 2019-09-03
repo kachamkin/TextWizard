@@ -44,7 +44,7 @@ namespace TextWizard
             CheckForIllegalCrossThreadCalls = false;
             Task.Run(() =>
             {
-                foreach (EncodingInfo info in Encoding.GetEncodings().Cast<EncodingInfo>().OrderBy(m => m.Name))
+                foreach (EncodingInfo info in Encoding.GetEncodings().OrderBy(m => m.Name))
                     EncodingSelection.DropDownItems.Add(info.Name);
             });
 
