@@ -75,20 +75,22 @@ namespace TextWizard
 
         private void SaveMouseDown(object sender, MouseEventArgs e)
         {
-            SaveFileDialog dialog = new SaveFileDialog();
-            dialog.DefaultExt = "txt";
-            dialog.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";
-
-            if (dialog.ShowDialog() == DialogResult.Cancel)
-                return;
-
-            try
+            using (SaveFileDialog dialog = new SaveFileDialog())
             {
-                File.WriteAllText(dialog.FileName, output.Text, Encoding.GetEncoding(encodingName));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Failed to save file!\n" + ex.Message);
+                dialog.DefaultExt = "txt";
+                dialog.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";
+
+                if (dialog.ShowDialog() == DialogResult.Cancel)
+                    return;
+
+                try
+                {
+                    File.WriteAllText(dialog.FileName, output.Text, Encoding.GetEncoding(encodingName));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Failed to save file!\n" + ex.Message);
+                };
             };
         }
     }
