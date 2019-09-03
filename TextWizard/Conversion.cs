@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Text;
-using System.Web;
-using System.Security.Cryptography;
-using System.Text.RegularExpressions;
 using System.IO;
 using System.IO.Compression;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Web;
 
 namespace TextWizard
 {

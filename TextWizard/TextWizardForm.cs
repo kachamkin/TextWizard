@@ -9,7 +9,6 @@ namespace TextWizard
 {
     public partial class TextWizardForm : Form
     {
-        private string encodingName;
         public TextWizardForm()
         {
             InitializeComponent();
@@ -19,7 +18,7 @@ namespace TextWizard
         {
             try
             {
-                output.Text = Conversion.ConvertString(input.Text, conversion.Text, encodingName);
+                output.Text = Conversion.ConvertString(input.Text, conversion.Text, EncodingSelection.Text);
                 if (!string.IsNullOrEmpty(output.Text))
                     Clipboard.SetText(output.Text);
             }
@@ -49,9 +48,7 @@ namespace TextWizard
             });
 
             conversion.Text = "To Base64";
-
-            encodingName = "utf-8";
-            EncodingSelection.Text = encodingName;
+            EncodingSelection.Text = "utf-8";
 
             if (Clipboard.ContainsText())
             {
@@ -68,8 +65,7 @@ namespace TextWizard
 
         private void EncodingSelected(object sender, ToolStripItemClickedEventArgs e)
         {
-            encodingName = e.ClickedItem.Text;
-            EncodingSelection.Text = encodingName;
+            EncodingSelection.Text = e.ClickedItem.Text;
             ConvertString();
         }
 
