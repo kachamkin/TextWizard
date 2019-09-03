@@ -81,7 +81,7 @@ namespace TextWizard
 
                 try
                 {
-                    File.WriteAllText(dialog.FileName, output.Text, Encoding.GetEncoding(encodingName));
+                    File.WriteAllText(dialog.FileName, output.Text, Encoding.GetEncoding(EncodingSelection.Text));
                 }
                 catch (Exception ex)
                 {
