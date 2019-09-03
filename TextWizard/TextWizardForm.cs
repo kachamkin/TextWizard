@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
 
 namespace TextWizard
 {
@@ -13,11 +13,6 @@ namespace TextWizard
         public TextWizardForm()
         {
             InitializeComponent();
-        }
-
-        private void inputTextChanged(object sender, EventArgs e)
-        {
-            ConvertString();
         }
 
         private void ConvertString()
@@ -34,6 +29,11 @@ namespace TextWizard
             };
         }
 
+        private void inputTextChanged(object sender, EventArgs e)
+        {
+            ConvertString();
+        }
+
         private void conversionTextChanged(object sender, EventArgs e)
         {
             ConvertString();
@@ -41,10 +41,14 @@ namespace TextWizard
 
         private void TextWizardFormOnLoad(object sender, EventArgs e)
         {
-            conversion.Text = "To Base64";
+            CheckForIllegalCrossThreadCalls = false;
+            Task.Run(() =>
+            {
+                foreach (EncodingInfo info in Encoding.GetEncodings().Cast<EncodingInfo>().OrderBy(m => m.Name))
+                    EncodingSelection.DropDownItems.Add(info.Name);
+            });
 
-            foreach (EncodingInfo info in Encoding.GetEncodings().Cast<EncodingInfo>().OrderBy(m => m.Name))
-                EncodingSelection.DropDownItems.Add(info.Name);
+            conversion.Text = "To Base64";
 
             encodingName = "utf-8";
             EncodingSelection.Text = encodingName;
@@ -80,7 +84,7 @@ namespace TextWizard
 
             try
             {
-                File.WriteAllText(dialog.FileName, output.Text);
+                File.WriteAllText(dialog.FileName, output.Text, Encoding.GetEncoding(encodingName));
             }
             catch (Exception ex)
             {
